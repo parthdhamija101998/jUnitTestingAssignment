@@ -4,101 +4,80 @@ package helix;
 public class MatrixHelixMorph {
 
     /**
-     * @param inMatrix
-     * @return a matrix that is morphed into a helix version of inMatrix
+     * @param input
+     * @return a matrix that is morphed into a helix version of input
      */
-    public static int[][] helix(int[][] inMatrix) {
-
-        if (inMatrix == null || inMatrix.length == 0)
+    public static int[][] helix(int[][] input) {
+        if (input == null || input.length == 0)
             return null;
-
-        int rows = inMatrix.length;
-
-        int cols = 0;
-
-        if (rows > 0) {
-            cols = inMatrix[0].length;
-
-            for (int i = 1; i < inMatrix.length; i++) {
-                if (cols != inMatrix[i].length) {
+        int rowNum = input.length;
+        int columnNum = 0;
+        if (rowNum > 0) {
+            columnNum = input[0].length;
+            for (int i = 1; i < input.length; i++) {
+                if (columnNum != input[i].length) {
                     return null;
                 }
             }
         }
 
-        int[][] expOutput = new int[rows][cols];
-
-        int expOutputRowIndex = 0, expOutputColIndex = 0;
-        int inMatrixRowIndex = 0, inMatrixColumnIndex = 0;
-
-        while (expOutputRowIndex < rows && expOutputColIndex < cols) {
-
-            for (int i = expOutputColIndex; i < cols; ++i) {
-                expOutput[expOutputRowIndex][i] = inMatrix[inMatrixRowIndex][inMatrixColumnIndex];
-
-                if (inMatrixColumnIndex == inMatrix[0].length - 1) {
-                    inMatrixRowIndex++;
-                    inMatrixColumnIndex = 0;
+        int[][] output = new int[rowNum][columnNum];
+        int expectedOutputRowIndex = 0, expectedOutputColIndex = 0;
+        int inputMatrixRowIndex = 0, inputMatrixColumnIndex = 0;
+        while (expectedOutputRowIndex < rowNum && expectedOutputColIndex < columnNum) {
+            for (int i = expectedOutputColIndex; i < columnNum; ++i) {
+                output[expectedOutputRowIndex][i] = input[inputMatrixRowIndex][inputMatrixColumnIndex];
+                if (inputMatrixColumnIndex == input[0].length - 1) {
+                    inputMatrixRowIndex++;
+                    inputMatrixColumnIndex = 0;
                 } else {
-                    inMatrixColumnIndex++;
+                    inputMatrixColumnIndex++;
                 }
             }
-
-            expOutputRowIndex++;
-
-            for (int i = expOutputRowIndex; i < rows; ++i) {
-                expOutput[i][cols - 1] = inMatrix[inMatrixRowIndex][inMatrixColumnIndex];
-
-                if (inMatrixColumnIndex == inMatrix[0].length - 1) {
-                    inMatrixRowIndex++;
-                    inMatrixColumnIndex = 0;
+            expectedOutputRowIndex++;
+            for (int i = expectedOutputRowIndex; i < rowNum; ++i) {
+                output[i][columnNum - 1] = input[inputMatrixRowIndex][inputMatrixColumnIndex];
+                if (inputMatrixColumnIndex == input[0].length - 1) {
+                    inputMatrixRowIndex++;
+                    inputMatrixColumnIndex = 0;
                 } else {
-                    inMatrixColumnIndex++;
+                    inputMatrixColumnIndex++;
                 }
             }
-            cols--;
-
-            if (expOutputRowIndex < rows) {
-                for (int i = cols - 1; i >= expOutputColIndex; --i) {
-                    expOutput[rows - 1][i] = inMatrix[inMatrixRowIndex][inMatrixColumnIndex];
-
-                    if (inMatrixColumnIndex == inMatrix[0].length - 1) {
-                        inMatrixRowIndex++;
-                        inMatrixColumnIndex = 0;
+            columnNum--;
+            if (expectedOutputRowIndex < rowNum) {
+                for (int i = columnNum - 1; i >= expectedOutputColIndex; --i) {
+                    output[rowNum - 1][i] = input[inputMatrixRowIndex][inputMatrixColumnIndex];
+                    if (inputMatrixColumnIndex == input[0].length - 1) {
+                        inputMatrixRowIndex++;
+                        inputMatrixColumnIndex = 0;
                     } else {
-                        inMatrixColumnIndex++;
+                        inputMatrixColumnIndex++;
                     }
                 }
-                rows--;
-
+                rowNum--;
             }
-
-            if (expOutputColIndex < cols) {
-                for (int i = rows - 1; i >= expOutputRowIndex; --i) {
-                    expOutput[i][expOutputColIndex] = inMatrix[inMatrixRowIndex][inMatrixColumnIndex];
-
-                    if (inMatrixColumnIndex == inMatrix[0].length - 1) {
-                        inMatrixRowIndex++;
-                        inMatrixColumnIndex = 0;
+            if (expectedOutputColIndex < columnNum) {
+                for (int i = rowNum - 1; i >= expectedOutputRowIndex; --i) {
+                    output[i][expectedOutputColIndex] = input[inputMatrixRowIndex][inputMatrixColumnIndex];
+                    if (inputMatrixColumnIndex == input[0].length - 1) {
+                        inputMatrixRowIndex++;
+                        inputMatrixColumnIndex = 0;
                     } else {
-                        inMatrixColumnIndex++;
+                        inputMatrixColumnIndex++;
                     }
                 }
-                expOutputColIndex++;
-
+                expectedOutputColIndex++;
             }
         }
-
-        for (int i = 0; i < expOutput.length; i++)
+        for (int i = 0; i < output.length; i++)
         {
-            for (int j = 0; j < expOutput[0].length; j++)
+            for (int j = 0; j < output[0].length; j++)
             {
-                System.out.print(expOutput[i][j]+ "\t");
+                System.out.print(output[i][j]+ "\t");
             }
-
             System.out.println();
         }
-
-        return expOutput;
+        return output;
     }
 }
